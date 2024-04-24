@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BBManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bdonor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="BloodType" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Phoneno" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Bloodneed" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Userlogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Role" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Bdonor_Userlogin">
+          <End Role="Userlogin" Type="Self.Userlogin" Multiplicity="0..1" />
+          <End Role="Bdonor" Type="Self.Bdonor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Userlogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bdonor">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_UserRole">
+          <End Role="Userlogin" Type="Self.Userlogin" Multiplicity="0..1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Userlogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BBManagementModelStoreContainer">
+          <EntitySet Name="Bdonor" EntityType="Self.Bdonor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Userlogin" EntityType="Self.Userlogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Bdonor_Userlogin" Association="Self.FK_Bdonor_Userlogin">
+            <End Role="Userlogin" EntitySet="Userlogin" />
+            <End Role="Bdonor" EntitySet="Bdonor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_UserRole" Association="Self.FK_UserRole_UserRole">
+            <End Role="Userlogin" EntitySet="Userlogin" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BBManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BBManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Userlogin" EntityType="BBManagementModel.Userlogin" />
+          <EntitySet Name="UserRole" EntityType="BBManagementModel.UserRole" />
+          <AssociationSet Name="FK_UserRole_UserRole" Association="BBManagementModel.FK_UserRole_UserRole">
+            <End Role="Userlogin" EntitySet="Userlogin" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <EntitySet Name="Bdonor" EntityType="BBManagementModel.Bdonor" />
+          <AssociationSet Name="FK_Bdonor_Userlogin" Association="BBManagementModel.FK_Bdonor_Userlogin">
+            <End Role="Userlogin" EntitySet="Userlogin" />
+            <End Role="Bdonor" EntitySet="Bdonor" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Userlogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserRole" Relationship="BBManagementModel.FK_UserRole_UserRole" FromRole="Userlogin" ToRole="UserRole" />
+          <NavigationProperty Name="Bdonor" Relationship="BBManagementModel.FK_Bdonor_Userlogin" FromRole="Userlogin" ToRole="Bdonor" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Role" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Userlogin" Relationship="BBManagementModel.FK_UserRole_UserRole" FromRole="UserRole" ToRole="Userlogin" />
+        </EntityType>
+        <Association Name="FK_UserRole_UserRole">
+          <End Type="BBManagementModel.Userlogin" Role="Userlogin" Multiplicity="0..1" />
+          <End Type="BBManagementModel.UserRole" Role="UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Userlogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Bdonor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="BloodType" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Phoneno" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Bloodneed" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="Userlogin" Relationship="BBManagementModel.FK_Bdonor_Userlogin" FromRole="Bdonor" ToRole="Userlogin" />
+        </EntityType>
+        <Association Name="FK_Bdonor_Userlogin">
+          <End Type="BBManagementModel.Userlogin" Role="Userlogin" Multiplicity="0..1" />
+          <End Type="BBManagementModel.Bdonor" Role="Bdonor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Userlogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bdonor">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BBManagementModelStoreContainer" CdmEntityContainer="BBManagementEntities">
+          <EntitySetMapping Name="Userlogin">
+            <EntityTypeMapping TypeName="BBManagementModel.Userlogin">
+              <MappingFragment StoreEntitySet="Userlogin">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRole">
+            <EntityTypeMapping TypeName="BBManagementModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRole">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bdonor">
+            <EntityTypeMapping TypeName="BBManagementModel.Bdonor">
+              <MappingFragment StoreEntitySet="Bdonor">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Bloodneed" ColumnName="Bloodneed" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phoneno" ColumnName="Phoneno" />
+                <ScalarProperty Name="BloodType" ColumnName="BloodType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BBManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="BBManagementEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Userlogin" EntityType="BBManagementModel.Userlogin" />
+    <EntitySet Name="UserRole" EntityType="BBManagementModel.UserRole" />
+    <AssociationSet Name="FK_UserRole_UserRole" Association="BBManagementModel.FK_UserRole_UserRole">
+      <End Role="Userlogin" EntitySet="Userlogin" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+    <EntitySet Name="Bdonor" EntityType="BBManagementModel.Bdonor" />
+    <AssociationSet Name="FK_Bdonor_Userlogin" Association="BBManagementModel.FK_Bdonor_Userlogin">
+      <End Role="Userlogin" EntitySet="Userlogin" />
+      <End Role="Bdonor" EntitySet="Bdonor" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Userlogin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="UserRole" Relationship="BBManagementModel.FK_UserRole_UserRole" FromRole="Userlogin" ToRole="UserRole" />
+    <NavigationProperty Name="Bdonor" Relationship="BBManagementModel.FK_Bdonor_Userlogin" FromRole="Userlogin" ToRole="Bdonor" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Role" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Userlogin" Relationship="BBManagementModel.FK_UserRole_UserRole" FromRole="UserRole" ToRole="Userlogin" />
+  </EntityType>
+  <Association Name="FK_UserRole_UserRole">
+    <End Type="BBManagementModel.Userlogin" Role="Userlogin" Multiplicity="0..1" />
+    <End Type="BBManagementModel.UserRole" Role="UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Userlogin">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Bdonor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="BloodType" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Phoneno" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Bloodneed" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+    <NavigationProperty Name="Userlogin" Relationship="BBManagementModel.FK_Bdonor_Userlogin" FromRole="Bdonor" ToRole="Userlogin" />
+  </EntityType>
+  <Association Name="FK_Bdonor_Userlogin">
+    <End Type="BBManagementModel.Userlogin" Role="Userlogin" Multiplicity="0..1" />
+    <End Type="BBManagementModel.Bdonor" Role="Bdonor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Userlogin">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Bdonor">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

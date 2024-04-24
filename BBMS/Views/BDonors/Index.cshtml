@@ -1,0 +1,87 @@
+﻿@model IEnumerable<BBMS.Bdonor>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BloodType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phoneno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BloodType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phoneno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @if (ViewBag.UserId == item.UserId)
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id  }, new
+           {
+               style = "color:white; text-decoration:none; padding:5px 10px; background-color:#808080; border-radius:5px;",
+               onmouseover = "this.style.color='';",
+               onmouseout = "this.style.color='white';"
+           })
+            }
+            |
+            @Html.ActionLink("Details", "Details", new { id = item.Id })  |
+            @if (User.IsInRole("admin"))
+            {
+
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new
+           {
+               style = "color:white; text-decoration:none; padding:5px 10px; background-color:red; border-radius:5px;",
+               onmouseover = "this.style.color='';",
+               onmouseout = "this.style.color='white';"
+           })
+                if (item.Bloodneed == "Required")
+                {
+
+                    <span class="fa fa-exclamation-triangle caution" title="Blood Required"></span>
+                }
+                else if (item.Bloodneed == "Donate")
+                {
+                    <span class="fa fa-check-circle donate" title="Ready for Donation" style="color:green;"></span>
+                }
+            }
+
+
+        </td>
+    </tr>
+}
+
+</table>
+
+<style>
+    .caution .donate{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+</style>

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BBManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Bdonor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="BloodType" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Phoneno" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Bloodneed" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Userlogin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Role" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <Association Name="FK_Bdonor_Userlogin">
+    <End Role="Userlogin" Type="Self.Userlogin" Multiplicity="0..1" />
+    <End Role="Bdonor" Type="Self.Bdonor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Userlogin">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Bdonor">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_UserRole">
+    <End Role="Userlogin" Type="Self.Userlogin" Multiplicity="0..1" />
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Userlogin">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BBManagementModelStoreContainer">
+    <EntitySet Name="Bdonor" EntityType="Self.Bdonor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Userlogin" EntityType="Self.Userlogin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Bdonor_Userlogin" Association="Self.FK_Bdonor_Userlogin">
+      <End Role="Userlogin" EntitySet="Userlogin" />
+      <End Role="Bdonor" EntitySet="Bdonor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_UserRole" Association="Self.FK_UserRole_UserRole">
+      <End Role="Userlogin" EntitySet="Userlogin" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

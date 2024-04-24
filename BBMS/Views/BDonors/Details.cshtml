@@ -1,0 +1,66 @@
+﻿@model BBMS.Bdonor
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BDonors</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model =>model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BloodType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BloodType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phoneno)
+        </dt>
+
+        <dd>
+            
+
+            @Html.DisplayFor(model => model.Phoneno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            <label>Blood Need:</label>
+        </dt>
+        <dd>
+            @if (Model.Bloodneed == "Request")
+            {
+                <p>Requested for Blood</p>
+            }
+            else if (Model.Bloodneed == "Donate")
+            {
+                <p>Donating Blood</p>
+            }
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
